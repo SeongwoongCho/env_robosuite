@@ -82,7 +82,7 @@ class EnvRobosuite(EB.EnvBase):
                 import os
                 valid_gpu_devices = egl_probe.get_available_devices()
                 if len(valid_gpu_devices) > 0:
-                    kwargs["render_gpu_device_id"] = valid_gpu_devices[int(os.environ.get("LOCAL_RANK"), 0)]
+                    kwargs["render_gpu_device_id"] = valid_gpu_devices[int(os.environ.get("LOCAL_RANK", 0))]
                     # kwargs["render_gpu_device_id"] = valid_gpu_devices[0]
         else:
             # make sure gripper visualization is turned off (we almost always want this for learning)
