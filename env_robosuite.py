@@ -80,7 +80,12 @@ class EnvRobosuite(EB.EnvBase):
                 # NOTE: this package should be installed from this link (https://github.com/StanfordVL/egl_probe)
                 import egl_probe
                 import os
-                valid_gpu_devices = egl_probe.get_available_devices()
+                if os.environ.get("CUDA_VISIBLE_DEVICES", None) is not None:
+                    valid_gpu_devices = os.environ.get("CUDA_VISIBLE_DEVICES", None)
+                    valid_gpu_devices = [int(i) for i in valid_gpu_devices.split(",")]
+                else:
+                    valid_gpu_devices = egl_probe.get_available_devices()
+
                 if len(valid_gpu_devices) > 0:
                     kwargs["render_gpu_device_id"] = valid_gpu_devices[int(os.environ.get("LOCAL_RANK", 0))]
                     # kwargs["render_gpu_device_id"] = valid_gpu_devices[0]
